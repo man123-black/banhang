@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: ./nginx
+    container_name: ecommerce-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    networks: [app-network]
+    restart: always
+
+  frontend:
+    build: ./frontend
+    container_name: ecommerce-frontend
+    networks: [app-network]
+    restart: always
+
+  backend:
+    build: ./backend
+    container_name: ecommerce-backend
+    env_file: ./backend/.env
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+    depends_on:
+      - mongo
+      - redis
+    networks: [app-network]
+    deploy:
+      replicas: 3
+    restart: always
+
+  worker:
+    build: ./backend
+    command: node src/workers/emailWorker.js
+    env_file: ./backend/.env
+    depends_on:
+      - mongo
+      - redis
+    networks: [app-network]
+    restart: always
+
+  analytics-worker:
+    build: ./backend
+    command: node src/workers/analyticsWorker.js
+    env_file: ./backend/.env
+    depends_on:
+      - mongo
+      - redis
+    networks: [app-network]
+    restart: always
+
+  mongo:
+    image: mongo:7
+    container_name: ecommerce-mongo
+    volumes:
+      - mongo_data:/data/db
+    networks: [app-network]
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: ecommerce-redis
+    command: redis-server --maxmemory 1gb --maxmemory-policy allkeys-lru
+    networks: [app-network]
+    restart: always
+
+volumes:
+  mongo_data:
+
+networks:
+  app-network:
+    driver: bridge
