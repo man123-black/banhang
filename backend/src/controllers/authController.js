@@ -6,14 +6,33 @@ const signToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 
 
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
-    const exist = await User.findOne({ email });
-    if (exist) return res.status(400).json({ message: 'Email đã tồn tại' });
-    const user = await User.create({ name, email, password, phone });
-    await Notification.create({ user: user._id, type: 'system', title: 'Chào mừng!', message: `Chào ${name}, cảm ơn bạn đã đăng ký MyShop!` });
+    // 1. Thêm 'username' vào danh sách lấy từ req.body
+    const { name, username, email, password, phone } = req.body;
+
+    // 2. Kiểm tra xem username đã tồn tại chưa để tránh lỗi duplicate key
+    const existUser = await User.findOne({ username });
+    if (existUser) return res.status(400).json({ message: 'Tên đăng nhập đã tồn tại' });
+
+    const existEmail = await User.findOne({ email });
+    if (existEmail) return res.status(400).json({ message: 'Email đã tồn tại' });
+
+    // 3. Thêm username vào quá trình tạo user
+    const user = await User.create({ name, username, email, password, phone });
+    
+    await Notification.create({ 
+      user: user._id, 
+      type: 'system', 
+      title: 'Chào mừng!', 
+      message: `Chào ${name}, cảm ơn bạn đã đăng ký MyShop!` 
+    });
+    
     res.status(201).json({ token: signToken(user._id), user: user.toPublic() });
-  } catch (err) { res.status(500).json({ message: err.message }); }
+  } catch (err) { 
+    res.status(500).json({ message: err.message }); 
+  }
 };
+
+// ... các hàm login, getProfile, ... giữ nguyên
 
 exports.login = async (req, res) => {
   try {
