@@ -9,6 +9,7 @@ const { apiLimiter } = require('./middleware/rateLimit');
 const app = express();
 
 app.set('trust proxy', 1);
+console.log("--- ĐÃ CẤU HÌNH TRUST PROXY XONG ---");
 app.use(helmet());
 app.use(compression());
 app.use(cors({ origin: true, credentials: true }));
