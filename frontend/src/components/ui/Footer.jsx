@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="bg-gray-900 text-gray-300 mt-12">
       <div className="container mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <h3 className="text-white font-bold text-lg mb-3">🛍️ MyShop</h3>
+          <h3 className="text-white font-bold text-lg mb-3">🛍️ Shop DMan</h3>
           <p className="text-sm">Website thương mại điện tử uy tín hàng đầu Việt Nam</p>
           <div className="flex gap-3 mt-4">
             <a href="#" className="hover:text-white"><FiFacebook size={20} /></a>
@@ -27,7 +27,7 @@ export default function Footer() {
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2"><FiPhone size={14} /> 1900 6868</li>
             <li className="flex items-center gap-2"><FiMail size={14} /> support@myshop.com</li>
-            <li className="flex items-center gap-2"><FiMapPin size={14} /> Hà Nội, Việt Nam</li>
+            <li className="flex items-center gap-2"><FiMapPin size={14} /> Huế, Việt Nam</li>
           </ul>
         </div>
         <div>
@@ -41,7 +41,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-gray-800 py-4 text-center text-sm">
-        © 2026 MyShop. All rights reserved.
+        © 2026 Shop DMan. All rights reserved.
       </div>
     </footer>
   );

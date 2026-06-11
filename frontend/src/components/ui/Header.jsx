@@ -32,7 +32,7 @@ export default function Header() {
           {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
 
-        <Link to="/" className="text-2xl font-bold text-primary-600">🛍️ MyShop</Link>
+        <Link to="/" className="text-2xl font-bold text-primary-600">🛍️ Shop DMan</Link>
 
         <form onSubmit={handleSearch} className="flex-1 max-w-2xl hidden md:block">
           <div className="relative">
