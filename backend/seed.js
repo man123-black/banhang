@@ -2,31 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Product = require('./src/models/Product');
 const Category = require('./src/models/Category');
-const User = require('./src/models/User');
-const Banner = require('./src/models/Banner');
-
-// Hàm tạo ảnh SVG placeholder đáng tin cậy 100% (luôn hiển thị)
-const generateImage = (text, bgColor = '3B82F6', textColor = 'ffffff') => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
-    <rect width="400" height="400" fill="#${bgColor}"/>
-    <text x="200" y="220" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#${textColor}" text-anchor="middle">${text}</text>
-  </svg>`;
-  return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
-};
-
-const generateBanner = (text, bgColor = '2563eb') => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
-    <defs>
-      <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:#${bgColor};stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
-      </linearGradient>
-    </defs>
-    <rect width="1200" height="400" fill="url(#grad)"/>
-    <text x="600" y="220" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">${text}</text>
-  </svg>`;
-  return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
-};
+const User = require('../src/models/User');
+const Banner = require('../src/models/Banner');
 
 (async () => {
   try {
@@ -42,42 +19,42 @@ const generateBanner = (text, bgColor = '2563eb') => {
     ]);
     console.log('🗑️  Cleared old data');
 
-    // ============ CATEGORIES ============
+    // ============ CATEGORIES (ĐỂ TRỐNG ẢNH) ============
     const cats = await Category.insertMany([
       { 
         name: 'Điện thoại', 
         slug: 'dien-thoai', 
-        image: generateImage('Phone', '1E40AF'),
+        image: '',  // ← Trống, admin tự thêm
         description: 'Điện thoại thông minh các loại'
       },
       { 
         name: 'Laptop', 
         slug: 'laptop', 
-        image: generateImage('Laptop', '059669'),
+        image: '',  // ← Trống
         description: 'Laptop các thương hiệu'
       },
       { 
         name: 'Phụ kiện', 
         slug: 'phu-kien', 
-        image: generateImage('Accessory', 'DC2626'),
+        image: '',  // ← Trống
         description: 'Phụ kiện công nghệ'
       },
       { 
         name: 'Thời trang', 
         slug: 'thoi-trang', 
-        image: generateImage('Fashion', '7C3AED'),
+        image: '',  // ← Trống
         description: 'Thời trang nam nữ'
       },
       { 
         name: 'Đồ gia dụng', 
         slug: 'do-gia-dung', 
-        image: generateImage('Home', 'EA580C'),
+        image: '',  // ← Trống
         description: 'Đồ gia dụng thông minh'
       }
     ]);
     console.log('📁 Created', cats.length, 'categories');
 
-    // ============ PRODUCTS ============
+    // ============ PRODUCTS (ĐỂ TRỐNG ẢNH) ============
     const products = [
       {
         name: 'iPhone 15 Pro Max 256GB - Titan Tự Nhiên',
@@ -85,7 +62,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'iPhone 15 Pro Max với chip A17 Pro, khung titan, camera 48MP zoom 5x. Màn hình Super Retina XDR 6.7 inch với ProMotion 120Hz.',
         price: 29990000,
         salePrice: 28490000,
-        images: [generateImage('iPhone 15', '1E40AF'), generateImage('Back', '1E3A8A')],
+        images: [],  // ← Trống, admin tự upload
         category: cats[0]._id,
         brand: 'Apple',
         stock: 50,
@@ -102,7 +79,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'Galaxy S24 Ultra với S Pen tích hợp, AI Galaxy, camera 200MP zoom 100x, màn hình Dynamic AMOLED 2X 6.8 inch.',
         price: 31990000,
         salePrice: 29990000,
-        images: [generateImage('Galaxy S24', '059669')],
+        images: [],  // ← Trống
         category: cats[0]._id,
         brand: 'Samsung',
         stock: 35,
@@ -119,7 +96,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'Xiaomi 14 Pro với camera Leica, chip Snapdragon 8 Gen 3, sạc nhanh 120W.',
         price: 19990000,
         salePrice: 17990000,
-        images: [generateImage('Xiaomi 14', 'DC2626')],
+        images: [],  // ← Trống
         category: cats[0]._id,
         brand: 'Xiaomi',
         stock: 80,
@@ -135,7 +112,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'MacBook Air với chip M3, màn hình Liquid Retina 13.6 inch, thời lượng pin lên đến 18 giờ.',
         price: 32990000,
         salePrice: 30990000,
-        images: [generateImage('MacBook', '0F172A')],
+        images: [],  // ← Trống
         category: cats[1]._id,
         brand: 'Apple',
         stock: 25,
@@ -152,7 +129,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'Dell XPS 15 với màn hình OLED 3.5K, chip Intel Core i7 thế hệ 13, RTX 4060.',
         price: 45990000,
         salePrice: 41990000,
-        images: [generateImage('Dell XPS', '1E40AF')],
+        images: [],  // ← Trống
         category: cats[1]._id,
         brand: 'Dell',
         stock: 15,
@@ -167,7 +144,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         slug: 'asus-rog-strix-g16',
         description: 'Laptop gaming ASUS ROG với RTX 4060, i9-13980HX, màn hình 240Hz QHD+.',
         price: 39990000,
-        images: [generateImage('ROG', 'DC2626')],
+        images: [],  // ← Trống
         category: cats[1]._id,
         brand: 'ASUS',
         stock: 20,
@@ -183,7 +160,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'AirPods Pro thế hệ 2 với chip H2, chống ồn chủ động, âm thanh không gian.',
         price: 5990000,
         salePrice: 5490000,
-        images: [generateImage('AirPods', '8B5CF6')],
+        images: [],  // ← Trống
         category: cats[2]._id,
         brand: 'Apple',
         stock: 100,
@@ -200,7 +177,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'Apple Watch Series 9 với chip S9, màn hình Always-On Retina, GPS.',
         price: 9990000,
         salePrice: 8990000,
-        images: [generateImage('Watch', 'EC4899')],
+        images: [],  // ← Trống
         category: cats[2]._id,
         brand: 'Apple',
         stock: 60,
@@ -215,7 +192,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         slug: 'samsung-galaxy-buds3',
         description: 'Tai nghe không dây Samsung với chống ồn ANC, âm thanh 360 độ.',
         price: 4990000,
-        images: [generateImage('Buds', '0EA5E9')],
+        images: [],  // ← Trống
         category: cats[2]._id,
         brand: 'Samsung',
         stock: 80,
@@ -231,7 +208,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'Áo thun nam chất liệu cotton 100% organic, form regular fit, nhiều màu.',
         price: 299000,
         salePrice: 199000,
-        images: [generateImage('T-Shirt', '7C3AED')],
+        images: [],  // ← Trống
         category: cats[3]._id,
         brand: 'Local Brand',
         stock: 200,
@@ -248,7 +225,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'Quần jean nam form slim fit, chất liệu denim co giãn, bền đẹp.',
         price: 699000,
         salePrice: 549000,
-        images: [generateImage('Jeans', '1E40AF')],
+        images: [],  // ← Trống
         category: cats[3]._id,
         brand: 'Local Brand',
         stock: 150,
@@ -264,7 +241,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
         description: 'Robot hút bụi lau nhà thông minh, lực hút 4000Pa, điều khiển qua app.',
         price: 8990000,
         salePrice: 6990000,
-        images: [generateImage('Robot', '059669')],
+        images: [],  // ← Trống
         category: cats[4]._id,
         brand: 'Xiaomi',
         stock: 30,
@@ -278,14 +255,14 @@ const generateBanner = (text, bgColor = '2563eb') => {
     await Product.insertMany(products);
     console.log('📦 Created', products.length, 'products');
 
-    // ============ USERS ============
+    // ============ USERS (KHÔNG CẦN ẢNH) ============
     await User.create({
       name: 'Admin MyShop',
       email: 'admin@myshop.com',
       password: 'Admin@123',
       isAdmin: true,
       phone: '0901234567',
-      avatar: generateImage('A', 'DC2626')
+      avatar: ''
     });
 
     await User.create({
@@ -293,7 +270,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
       email: 'user@myshop.com',
       password: 'User@123',
       phone: '0912345678',
-      avatar: generateImage('U', '3B82F6'),
+      avatar: '',
       address: { street: '123 Nguyễn Huệ', city: 'Hồ Chí Minh', district: 'Quận 1', ward: 'Bến Nghé' }
     });
 
@@ -302,18 +279,18 @@ const generateBanner = (text, bgColor = '2563eb') => {
       email: 'tranthib@myshop.com',
       password: 'User@123',
       phone: '0923456789',
-      avatar: generateImage('B', 'EC4899'),
+      avatar: '',
       address: { street: '456 Lê Lợi', city: 'Hồ Chí Minh', district: 'Quận 3', ward: 'Bến Thành' }
     });
 
     console.log('👤 Created 3 users');
 
-    // ============ BANNERS ============
+    // ============ BANNERS (ĐỂ TRỐNG ẢNH) ============
     await Banner.insertMany([
       {
         title: 'Khuyến mãi lớn mùa hè - Giảm đến 50%',
         subtitle: 'Hàng ngàn sản phẩm giảm giá sốc',
-        image: generateBanner('SUMMER SALE 50% OFF', 'DC2626'),
+        image: '',  // ← Trống, admin tự upload
         link: '/products',
         buttonText: 'Mua ngay',
         position: 'home_top',
@@ -323,7 +300,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
       {
         title: 'iPhone 15 Series chính hãng',
         subtitle: 'Trả góp 0% - Thu cũ đổi mới',
-        image: generateBanner('iPHONE 15 PRO MAX', '1E40AF'),
+        image: '',  // ← Trống
         link: '/products?search=iphone',
         buttonText: 'Khám phá',
         position: 'home_mid',
@@ -333,7 +310,7 @@ const generateBanner = (text, bgColor = '2563eb') => {
       {
         title: 'Laptop Gaming - Làm việc & Giải trí',
         subtitle: 'Giảm thêm 2 triệu khi mua Online',
-        image: generateBanner('GAMING LAPTOP', '059669'),
+        image: '',  // ← Trống
         link: '/products?category=' + cats[1]._id,
         buttonText: 'Xem ngay',
         position: 'home_bottom',
